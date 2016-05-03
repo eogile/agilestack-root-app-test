@@ -3,3 +3,4 @@
 .DS_Store
 root-app-test
 node_modules/
+lib/
