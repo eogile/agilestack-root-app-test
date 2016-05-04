@@ -8,12 +8,11 @@ language: go
 go:
   - 1.6
 
-node_js:
-  - 5.9
-
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-engine
+  - nvm install 5.9
+  - nvm use 5.9
 
 before_script:
   - uname -a
