@@ -1,0 +1,27 @@
+sudo: required
+
+services:
+  - docker
+
+language: go
+
+go:
+  - 1.6
+
+node_js:
+  - 5.9
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-engine
+
+before_script:
+  - uname -a
+  - docker version
+  - go version
+  - npm version
+
+script:
+  - make setup
+  - make
+  - make test
