@@ -1,0 +1,20 @@
+version: "2"
+
+networks:
+  default:
+    external:
+      name: agilestacknet
+
+volumes:
+  shared:
+    external:
+      name: agilestack-shared
+
+services:
+
+  root-app-test:
+    image: eogile/agilestack-root-app-test
+    container_name: agilestack-root-app-test
+    restart: on-failure
+    volumes:
+      - shared:/shared
