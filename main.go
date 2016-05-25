@@ -6,8 +6,9 @@ import (
 
 	"github.com/eogile/agilestack-utils/files"
 	"github.com/eogile/agilestack-utils/plugins"
-	"github.com/eogile/agilestack-utils/plugins/registration"
 	"github.com/eogile/agilestack-utils/plugins/menu"
+	"github.com/eogile/agilestack-utils/plugins/registration"
+	"github.com/eogile/agilestack-utils/plugins/components"
 )
 
 func main() {
@@ -25,6 +26,11 @@ func initPlugin() {
 	err = publishRoutesAndReducers()
 	if err != nil {
 		log.Fatalln("Error while publishing routes and reducers:", err)
+	}
+
+	err = publishComponents()
+	if err != nil {
+		log.Fatalln("Error while publishing application components:", err)
 	}
 
 	if err := launchBuild(); err != nil {
@@ -45,32 +51,69 @@ func moveSources() error {
 func publishRoutesAndReducers() error {
 	config := registration.PluginConfiguration{
 		PluginName: "agilestack-root-app-test",
-		Reducers:   []string{
+		Reducers: []string{
 			"todoList",
 			"reducer2",
 		},
-		Routes:     []registration.Route{
+		Routes: []registration.Route{
 			registration.Route{
-				Href:"/todo-list",
-				ComponentName:"TodoApp",
+				Href:          "/login",
+				ComponentName: "LoginPage",
+				Routes:        []registration.SubRoute{},
+				Type:          "full-screen-route",
+				IsIndex:       false,
+			},
+			registration.Route{
+				ComponentName: "HomePage",
+				Routes:        []registration.SubRoute{},
+				Type:          "content-route",
+				IsIndex:       true,
+			},
+			registration.Route{
+				Href:          "/todo-list",
+				ComponentName: "TodoApp",
+				Routes:        []registration.SubRoute{},
+				Type:          "content-route",
+				IsIndex:       false,
+			},
+			registration.Route{
+				Href:          "/outer",
+				ComponentName: "OuterComponent",
+				Routes:        []registration.SubRoute{
+					registration.SubRoute{
+						Href: "inner",
+						ComponentName: "InnerComponent",
+						Routes:        []registration.SubRoute{},
+					},
+				},
+				Type:          "content-route",
+				IsIndex:       false,
 			},
 		},
 	}
 	return registration.StoreRoutesAndReducers(&config)
 }
 
+func publishComponents() error {
+	return components.StoreComponents(&components.Components{
+		PluginName: "agilestack-root-app-test",
+		AppComponent:"App",
+		MainComponent:"Main",
+	})
+}
+
 func launchBuild() error {
-      return registration.LaunchApplicationBuild()
+	return registration.LaunchApplicationBuild()
 }
 
 func publishMenu() error {
 	m := menu.Menu{
-		PluginName:"agilestack-root-app-test",
+		PluginName: "agilestack-root-app-test",
 		Entries: []menu.MenuEntry{
 			menu.MenuEntry{
-				Name:"Todo application",
-				Route:"/todo-list",
-				Weight: 10,
+				Name:    "Todo application",
+				Route:   "/todo-list",
+				Weight:  10,
 				Entries: []menu.MenuEntry{},
 			},
 		},
