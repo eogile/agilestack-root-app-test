@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 
 const HomePage = () => (
   <div>
-    <h1>Home page</h1>
-    <h2>Hard coded menu</h2>
+    <h2>Home page</h2>
+    <h3>Hard coded menu</h3>
     <ul>
       <li><Link to="/login">Login page</Link></li>
       <li><Link to="/">Home page</Link></li>

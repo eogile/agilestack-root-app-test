@@ -3,11 +3,12 @@ package main
 import (
 	"net/http"
 
+	"log"
+
 	"github.com/eogile/agilestack-utils/plugins"
 	"github.com/eogile/agilestack-utils/plugins/components"
 	"github.com/eogile/agilestack-utils/plugins/menu"
 	"github.com/eogile/agilestack-utils/plugins/registration"
-	"log"
 )
 
 func main() {
@@ -30,10 +31,35 @@ func initPlugin() {
 			PluginName: "agilestack-root-app-test",
 			Entries: []menu.MenuEntry{
 				menu.MenuEntry{
+					Name:    "Home",
+					Route:   "/",
+					Weight:  10,
+					Entries: []menu.MenuEntry{},
+				},
+				menu.MenuEntry{
+					Name:    "Login",
+					Route:   "/login",
+					Weight:  10,
+					Entries: []menu.MenuEntry{},
+				},
+				menu.MenuEntry{
 					Name:    "Todo application",
 					Route:   "/todo-list",
 					Weight:  10,
 					Entries: []menu.MenuEntry{},
+				},
+				menu.MenuEntry{
+					Name:   "Outer",
+					Route:  "/outer",
+					Weight: 10,
+					Entries: []menu.MenuEntry{
+						menu.MenuEntry{
+							Name:    "Inner",
+							Route:   "/outer/inner",
+							Weight:  10,
+							Entries: []menu.MenuEntry{},
+						},
+					},
 				},
 			},
 		},
